@@ -1,0 +1,35 @@
+class BombArray {
+    field Array Bombs;
+    field int size;
+
+    /**
+     * Constructor to initialize the Bombs array and size.
+     */
+    constructor BombArray new() {
+        let Bombs = Array.new(75);
+        let size = 0;
+        return this;
+    }
+
+    /**
+     * Append a Bomb object to the array.
+     */
+    method void appendBomb(Bomb newBomb) {
+        // Append the new Bomb
+        let Bombs[size] = newBomb;
+        // Increase the size
+        let size = size + 1;
+        return;
+    }
+
+    /**
+     * Get the Bombs array.
+     */
+    method Array getBombs() {
+        return Bombs;
+    }
+
+    method int getSize(){
+	return size;
+    }
+}

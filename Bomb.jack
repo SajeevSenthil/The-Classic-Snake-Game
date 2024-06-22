@@ -1,0 +1,109 @@
+class Bomb{
+	field int centX,centY;
+
+	constructor Bomb bomb(int x,int y){
+		let centX=x;
+		let centY=y;
+		return this;
+	}
+	method int getCoord(boolean x) {
+		var int retCoord;
+		if (x) {
+		let retCoord = centX;
+		} else {
+		let retCoord = centY;
+		}
+		return retCoord;
+  	}
+  
+
+    function BombArray drawBlock(Snake snake, int l,BombArray Boms) {
+    var int randX, randY, i, blockX, blockY;
+    var Block tmpBlock;
+    var Bomb tempb, randBlock;
+    var boolean matched;
+    let randX = Rand.randRange(50);
+    let randY = Rand.randRange(24);
+    let i = 0;
+    let matched = false;
+    while (i < l) {
+      let tmpBlock = snake[i];
+      let blockX = tmpBlock.getCoord(true); 
+      let blockY = tmpBlock.getCoord(false);
+      if ((blockX = randX) & (blockY = randY)) {
+        let matched = true;
+      }
+      let i = i + 1; 
+    }
+    while (matched) {
+      let matched = false;
+      let randX = Rand.randRange(50);
+      let randY = Rand.randRange(24);
+      let i = 0;
+      while (i < l) {
+        let tmpBlock = snake[i];
+        let blockX = tmpBlock.getCoord(true); 
+        let blockY = tmpBlock.getCoord(false);
+        if ((blockX = randX) & (blockY = randY)) {
+          let matched = true;
+        }
+        let i = i + 1; 
+      }
+    }
+    let randBlock=Bomb.bomb(randX,randY);
+    do Boms.appendBomb(randBlock);
+
+    do Screen.setColor(true);
+    do Screen.drawCircle(randX*10,randY*10,7);
+    return Boms;
+  }
+
+  
+function boolean seeIfLose(int l, Snake snake, int dir, BombArray bombs) {
+    var boolean bumpbomb, lose;
+    var int headX, headY, i,bs, newL, tmpX, tmpY;
+    var Block head;
+    var Array Boms;
+    var Bomb tempBomb;
+    let bumpbomb = false;
+    let Boms = bombs.getBombs();
+    let lose = false;
+    let newL = l - 1;
+    let head = snake[newL];
+    let headX = head.getCoord(true);
+    let headY = head.getCoord(false);
+    if (dir = 1){let headX = headX + 1;}
+    if (dir = 2){let headX = headX - 1;}
+    if (dir = 3){let headY = headY - 1;}
+    if (dir = 4){let headY = headY + 1;}
+    let i = 0;
+    let bs=bombs.getSize();
+    while (i < bs) {
+      let tempBomb = Boms[i];
+      let tmpX = tempBomb.getCoord(true);
+      let tmpY = tempBomb.getCoord(false);
+//      do Output.printChar("  ");
+//      do Output.printInt(headX);
+//      do Output.printInt(headY);
+//      do Output.printChar(" ");
+//      do Output.printInt(tmpX);
+//      do Output.printInt(tmpY);
+      if ((headX = tmpX) & (headY = tmpY)) {
+        let bumpbomb = true;
+      }
+      let i = i + 1;
+    }
+    if (bumpbomb) {
+      let lose = true;
+    }
+    return lose;
+  }
+
+
+
+  function void dispose(Bomb bomb){
+    do Memory.deAlloc(bomb);
+    return;
+  }
+
+}
